@@ -1,11 +1,8 @@
 ﻿using static System.Console;
+
 using Lecture.Sets;
+using Lecture.Numerics;
 
-var s = Set.Empty;
-var fs = Set.FromElements(s);
-var A = Set.FromElements(fs);
-var cond = A.IsSubset(s);
-
-WriteLine(s);
-WriteLine(fs);
-WriteLine(A);
+Set n = 2;
+Set m = Set.FromElements(0, 1);
+WriteLine(n == m);

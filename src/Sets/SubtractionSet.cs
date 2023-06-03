@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Lecture.Sets;
 
-public class IntersectSet : Set
+public class SubtractionSet : Set
 {
     private HashSet<Set> elements = null;
 
@@ -15,19 +15,15 @@ public class IntersectSet : Set
         {
             if (this.elements is not null)
                 return this.elements;
-
-            this.elements = new HashSet<Set>();
-            foreach (var el in SetA.Collection)
-                if (SetB.Contains(el))
-                    this.elements.Add(el);
-                
+            
+            this.elements = new HashSet<Set>(SetA.Collection);
+            foreach (var el in SetB.Collection)
+                this.elements.Remove(el);
+            
             return this.elements;
         }
     }
 
     public override bool Contains(Set set)
-        => SetA.Contains(set) && SetB.Contains(set);
-
-    public override string ToString()
-        => base.ToString();
+        => SetA.Contains(set) && !SetB.Contains(set);
 }

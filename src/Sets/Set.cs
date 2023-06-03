@@ -1,13 +1,27 @@
-using System.Collections.Generic;
+using System;
 using System.Text;
+using System.Collections.Generic;
 
 namespace Lecture.Sets;
 
-public abstract record Set
+using Numerics;
+
+public abstract class Set
 {
     public abstract bool Contains(Set set);
-    public abstract bool IsSubset(Set set);
     public abstract IEnumerable<Set> Collection { get; }
+
+    public virtual bool IsSubset(Set set)
+    {
+        foreach (var el in Collection)
+        {
+            if (set.Contains(el))
+                continue;
+            
+            return false;
+        }
+        return true;
+    }
 
     public virtual Set Union(Set set)
     {
@@ -27,6 +41,16 @@ public abstract record Set
             SetB = set
         };
         return union;
+    }
+
+    public virtual Set Subtract(Set set)
+    {
+        var sub = new SubtractionSet
+        {
+            SetA = this,
+            SetB = set
+        };
+        return sub;
     }
 
     public override string ToString()
@@ -51,6 +75,49 @@ public abstract record Set
         
     public static Set operator &(Set a, Set b)
         => a.Intersect(b);
+
+    public static implicit operator Set(ulong n)
+        => new Natural(n);
+
+    public static Set operator +(Set a, Set b)
+    {
+        if (a is Number n && b is Number m)
+            return n.Add(m);
+        
+        return a.Union(b);
+    }
+
+    public static Set operator -(Set a, Set b)
+    {
+        if (a is Number n && b is Number m)
+            return n.Sub(m);
+        
+        return a.Subtract(b);
+    }
+
+    public static Set operator *(Set a, Set b)
+    {
+        if (a is Number n && b is Number m)
+            return n.Sub(m);
+        
+        throw new InvalidOperationException(
+            $"""
+            {a} and {b} don't be a number to operate with * operator.
+            To cartesian product consider using Subtract method.
+            """
+        );
+    }
+
+    public static bool operator ==(Set a, Set b)
+    {
+        if (a is Number n && b is Number m)
+            return n.Equals(m);
+        
+        return a.IsSubset(b) && b.IsSubset(a);
+    }
+    
+    public static bool operator !=(Set a, Set b)
+        => !(a == b);
 
     private static Set empty = new EmptySet();
     public static Set Empty => empty;

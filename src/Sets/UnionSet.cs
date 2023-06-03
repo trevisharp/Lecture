@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Lecture.Sets;
 
-public record UnionSet : Set
+public class UnionSet : Set
 {
     public Set SetA { get; init; }
     public Set SetB { get; init; }

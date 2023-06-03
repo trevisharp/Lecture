@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Lecture.Sets;
 
-public record FiniteSet : Set, IEnumerable<Set>
+public class FiniteSet : Set, IEnumerable<Set>
 {
     private HashSet<Set> hash = new HashSet<Set>();
 
@@ -21,7 +21,7 @@ public record FiniteSet : Set, IEnumerable<Set>
     public override bool IsSubset(Set set)
     {
         if (set is FiniteSet fs)
-            return hash.IsSubsetOf(fs);
+            return hash.IsSubsetOf(fs.hash);
         
         foreach (var el in hash)
         {

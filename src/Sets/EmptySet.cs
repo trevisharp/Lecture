@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Lecture.Sets;
 
-public record EmptySet : Set
+public class EmptySet : Set
 {
     public override bool Contains(Set set)
         => false;
