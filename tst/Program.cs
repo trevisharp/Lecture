@@ -1,5 +1,11 @@
 ﻿using static System.Console;
 using Lecture.Sets;
 
-Set s = Set.Empty;
-FiniteSet fs = new FiniteSet(s, s, s);
+var s = Set.Empty;
+var fs = Set.FromElements(s);
+var A = Set.FromElements(fs);
+var cond = A.IsSubset(s);
+
+WriteLine(s);
+WriteLine(fs);
+WriteLine(A);
